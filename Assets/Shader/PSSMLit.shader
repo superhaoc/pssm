@@ -1,4 +1,3 @@
-// PSSMLit.shader
 Shader "Custom/PSSM Lit"
 {
     Properties
@@ -89,3 +88,4 @@ Shader "Custom/PSSM Lit"
     }
 
 }
+
