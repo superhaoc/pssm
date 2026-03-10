@@ -70,27 +70,14 @@ Shader "Custom/PSSM Lit"
             
             half4 frag(Varyings input) : SV_Target
             {
-                // 采样纹理
                 half4 baseColor = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv) * _BaseColor;
-                
-                // 光照计算
                 Light mainLight = GetMainLight();
-                // 计算PSSM阴影
                 float shadow = SamplePSSMShadow(input.positionWS, input.depthVS);
-                // 或者使用PCF版本：
-                // float shadow = SamplePSSMShadowPCF(input.positionWS, input.depthVS, 0);
-                
-                // 光照计算
+
                 float3 diffuse = mainLight.color * mainLight.distanceAttenuation * shadow;
-                
-                // 简单漫反射
                 float NdotL = saturate(dot(input.normalWS, mainLight.direction));
                 float3 lighting = diffuse * NdotL;
-                
-                // 环境光
                 float3 ambient = SampleSH(input.normalWS);
-                
-                // 最终颜色
                 float3 finalColor = (lighting + ambient) * baseColor.rgb;
                 
                 return half4(finalColor, baseColor.a);
@@ -100,4 +87,5 @@ Shader "Custom/PSSM Lit"
         
        
     }
+
 }
